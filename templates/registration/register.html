@@ -1,0 +1,61 @@
+{% extends 'Main/base.html' %} 
+
+{% block body %} 
+{% include 'Main/header.html' %}
+
+<div class="container">
+    <h3 class="display-1 text-center">Registration</h3>
+    <form action="#" method="post" >
+        {% csrf_token %}
+ 
+        <div class="row form-group ">
+            {% for field in form_request %} 
+            <h3 class="text-center" style="color: red;">{{ field.errors }}</h3>
+                {% endfor %}
+        
+            <div class="col-md-6">
+                <!-- <label for="fname">First Name</label> -->
+                {{ form.username}}
+            </div>
+            <div class="col-md-6">
+                <!-- <label for="email">Email</label> -->
+                {{ form.email}}
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-6">
+                    <!-- <label for="lname">Last Name</label> -->
+                    {{ form.firstname}}
+            </div>
+        
+        
+            <div class="col-md-6">
+                    <!-- <label for="lname">Last Name</label> -->
+                    {{ form.lastname}}
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-6">
+                    <!-- <label for="lname">Last Name</label> -->
+                {{ form.password1 }}
+            </div>
+        
+        
+            <div class="col-md-6">
+                    <!-- <label for="lname">Last Name</label> -->
+                    {{ form.password2}}
+            </div>
+        </div>
+
+        
+        
+        <div class="form-group text-center">
+            <input type="submit" value="Registration" class="btn btn-primary ">
+        </div>
+
+    </form>		
+</div>
+
+
+{% endblock %}

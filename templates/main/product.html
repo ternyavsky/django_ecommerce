@@ -1,0 +1,65 @@
+{% extends 'Main/base.html' %}
+{% load static %}
+	{% block body %}
+		
+{% include 'Main/header.html' %}
+		 
+		
+
+	<header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner" style="background-image:url({% static 'Main/img/img_bg_2.jpg' %});">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center">
+					<div class="display-t">
+						<div class="display-tc animate-box" data-animate-effect="fadeIn">
+							<h1>Product</h1>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	
+	<div id="fh5co-product">
+		<div class="container">
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+					<span>Cool Stuff</span>
+					<h2>Products.</h2>
+					<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+				</div>
+			</div>
+			<div class="row">
+				{% for i in products %}
+				<div class="col-md-4 text-center animate-box">
+					<div class="product">
+						<div class="product-grid" style="background-image:url({{i.imageURL}});">
+							<div class="inner">
+								<p>
+									<a href="{% url 'cart_add' i.id %}" class="icon"><i class="icon-shopping-cart"></i></a>
+									<a href="{% url 'single' i.id %}" class="icon"><i class="icon-eye"></i></a>
+								</p>
+							</div>
+						</div>
+						<div class="desc">
+							<h3><a href="{% url 'single' i.id %}">{{ i.title }}</a></h3>
+							<span class="price">${{ i.price }}</span>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+				
+			
+		</div>
+	</div>
+
+	{% include 'Main/footer.html' %}
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+	
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'Main/base.html' %} 
+
+{% block body %} 
+{% include 'Main/header.html' %}
+
+<div class="container">
+    <h3 class="display-1 text-center">Login</h3>
+    
+
+   
+    <form action="#" method="post" >
+  
+        {% csrf_token %}
+        <div class="row form-group ">
+            {% for field in form_request.non_field_errors %} 
+            <h3 class="text-center" style="color: red;"> {{ field }}</h3>
+        {% endfor %}
+            <div class="col-md-6">
+                <!-- <label for="fname">Username</label> -->
+               {{ form.username }}
+              <h5 class="nha"> <a href="{% url 'passwordreset' %}">Forgot password?</a></h5>
+              
+            </div>
+            <div class="col-md-6">
+                <!-- <label for="fname">Password</label> -->
+                {{ form.password }}
+                <h5 class="nha ">No have account? <a href="{% url 'registration' %}">Registration</a></h5>
+            </div>
+          
+            
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" value="Login" class="btn btn-primary">Login</button> 
+        </div>
+
+    </form>		
+</div>
+{% include 'Main/footer.html' %}
+
+{% endblock %}

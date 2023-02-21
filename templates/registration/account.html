@@ -1,0 +1,21 @@
+{% extends 'Main/base.html' %} 
+
+{% block body %} 
+{% include 'Main/header.html' %}
+
+
+<h1>Account page artem, sdelay krasivo</h1>
+
+
+
+<h1>{{ user.id }} - id юзера, его никуда не надо вставлять</h1>
+<h1>{{ user.username }} - username юзера</h1>
+<h1>{{ user.email }} - email юзера</h1>
+
+
+<p>Пример как на фотке в тг</p>
+
+
+{% include 'Main/footer.html' %}
+
+{% endblock %}
