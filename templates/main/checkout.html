@@ -1,0 +1,76 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block body %}
+
+{% include  'Main/header.html' %}
+
+    <div class="container">
+        {% if status_address == None %}
+<div class="col-lg-6">
+    <div class="box-element" id="form-wrapper">
+        <form id="form" method="post">
+          {% csrf_token %}
+            
+            <div id="shipping-info">
+                <hr>
+                <p>Shipping Information:</p>
+                <hr>
+                <div class="form-field">
+                    <input class="form-control" type="text" name="address" placeholder="Address..">
+                </div>
+                <div class="form-field">
+                    <input class="form-control" type="text" name="city" placeholder="City..">
+                </div>
+                <div class="form-field">
+                    <input class="form-control" type="text" name="state" placeholder="State..">
+                </div>
+                <div class="form-field">
+                    <input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+                </div>
+
+            </div>
+
+            <hr>
+            <input id="form-button" class="btn btn-warning btn-block" type="submit" value="Save">
+        </form>
+    </div>
+
+    
+</div>
+{% endif %}
+
+<div class="col-lg-6">
+    <div class="box-element">
+        <a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+        <hr>
+        <h3>Order Summary</h3>
+        <hr>
+        <h5>Items: {{ cart.get_quantity}}</h5>
+        <h5>Total:  {{cart.get_total_price|floatformat:2}}$</h5>
+        {% for item in cart %}
+        {% with product=item.product %}
+        <div class="cart-row">
+            <div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}" width="50" height="50"></div>
+            <div style="flex:2"><p>{{product.title}}</p></div>
+            <div style="flex:1"><p>{{item.price|floatformat:2}}$</p></div>
+            <div style="flex:1"><p>x{{item.quantity}}</p></div>
+        </div>
+        {% endwith %}
+        {% endfor %}
+        
+    </div>
+    <div class="text-center">
+    <a href="{% url 'create_order' %}" class="btn btn-success w-100">Buy</a>
+</div>
+</div>
+
+
+</div>
+
+
+
+
+
+{% include 'Main/footer.html' %}
+
+{% endblock %}

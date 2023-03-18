@@ -95,6 +95,7 @@ DATABASES = {
 }
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -117,6 +118,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -131,6 +134,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+
+GITHUB_APP_ID = 'e6efbf46e1c8985c8675'
+GITHUB_API_SECRET = 'e457c334216b1e570e4d054055956d79437e2bb1'
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [

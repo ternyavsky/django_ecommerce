@@ -2,7 +2,7 @@ from typing import Any, Dict
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.core.mail import send_mail
-from django.views.generic import CreateView,TemplateView,DetailView, ListView
+from django.views.generic import CreateView,TemplateView,DetailView,ListView
 from .models import *
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -12,6 +12,8 @@ from api.serializers import ProductSerializer
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from .cart import Cart
+import random
+from django.contrib import messages
 
 
 # Home view, "preview_objects" - products for carousel, products - all products
@@ -25,6 +27,50 @@ class HomeView(TemplateView):
         context['products'] = Product.objects.all()
         return context
 
+
+class CheckoutView(TemplateView):
+    template_name = "main/checkout.html"
+
+    def post(self,request):
+        new_address = UserAddress.objects.create(
+            address=request.POST.get('address'),
+            city=request.POST.get('city'),
+            state=request.POST.get('state'),
+            zip_code=request.POST.get('zipcode'),
+            user=request.user)
+        print(new_address)
+        return redirect('checkout')
+
+
+    def get(self,request):
+        try:
+            order = Order.objects.get(user=request.user)
+        except:
+            order = None
+        if order is not None:
+            messages.error(request,'Pay for an existing order first or cancel it')
+            return redirect('cart')
+        
+        cart = Cart(request).get_quantity()
+        if cart == 0:
+            messages.error(request,'You cart is empty!')
+            return redirect('cart')
+        try:
+            address = UserAddress.objects.get(user=self.request.user.id)
+        except:
+            address = None
+        context = {
+            'cart':Cart(request),
+            'status_address':address
+        }
+
+        return render(request,self.template_name,context=context)
+    
+
+
+
+
+    
 
 # Products view, All products
 class ProductView(ListView):
@@ -130,6 +176,24 @@ def move_remove(request,product_id):
     cart = Cart(request)
     cart.move_remove(product=item)
     return redirect('cart')
+
+
+@login_required
+def create_order(request):
+    cart = Cart(request)
+    order = Order.objects.create(
+        user=request.user,
+        address=UserAddress.objects.get(user=request.user),
+        order_id=random.randint(1000000,1999999),
+        price=cart.get_total_price())
+    for item in cart:
+        OrderItem.objects.create(
+            order=order,
+            product=item['product'],
+            price=item['price'],
+            quantity=item['quantity'])
+    cart.clear()
+    return redirect('home')
 
 
 

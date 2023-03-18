@@ -9,3 +9,4 @@ def get_quantity(request):
     cart = Cart(request)
     return cart.get_quantity()
 
+

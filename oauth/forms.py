@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UsernameField, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.models import User
+
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
@@ -70,20 +72,20 @@ class RegistrationForm(UserCreationForm):
         'id': "floatingInput",
         'placeholder':"Username",
         'name':'username'}))
-    firstname = forms.CharField(widget=forms.TextInput(attrs={
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
         "autofocus": True,
         'class':'form-control',
         'type': "text",
         'id': "fname",
         'placeholder':"Firstname",
-        'name':'email'}))
-    lastname = forms.CharField(widget=forms.TextInput(attrs={
+        'name':'first_name'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
         "autofocus": True,
         'class':'form-control',
         'type': "text",
         'id': "lname",
         'placeholder':"Lastname",
-        'name':'username'}))
+        'name':'last_name'}))
 
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={
         "autocomplete": "new-password",
@@ -100,3 +102,7 @@ class RegistrationForm(UserCreationForm):
         'placeholder':"Password again",
         'name':'password2'
     }))
+
+    class Meta:
+        model = User
+        fields = ('email','last_name','first_name','username')
