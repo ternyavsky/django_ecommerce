@@ -7,6 +7,11 @@
     <div class="container">
         {% if status_address == None %}
 <div class="col-lg-6">
+    {% if messages %}
+    {% for message in messages %}
+    <h3 class="text-center" style="color: red;"> {{ message }}</h3> 
+    {% endfor %}
+{% endif %}
     <div class="box-element" id="form-wrapper">
         <form id="form" method="post">
           {% csrf_token %}

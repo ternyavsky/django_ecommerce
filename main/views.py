@@ -39,8 +39,8 @@ class CheckoutView(TemplateView):
             zip_code=request.POST.get('zipcode'),
             user=request.user)
         print(new_address)
-        return redirect('checkout')
-
+        return redirect 
+    
 
     def get(self,request):
         try:
@@ -152,7 +152,7 @@ class ProductApiList(APIView):
 
 
 ###   GROUP METHODS ADD/REMOVE ITEM ON CART ###
-# Add item from product or home page
+# Add item from product or уебать димана home page
 @login_required
 def cart_add(request,product_id):
     item = Product.objects.get(id=product_id)
@@ -180,20 +180,25 @@ def move_remove(request,product_id):
 
 @login_required
 def create_order(request):
-    cart = Cart(request)
-    order = Order.objects.create(
-        user=request.user,
-        address=UserAddress.objects.get(user=request.user),
-        order_id=random.randint(1000000,1999999),
-        price=cart.get_total_price())
-    for item in cart:
-        OrderItem.objects.create(
-            order=order,
-            product=item['product'],
-            price=item['price'],
-            quantity=item['quantity'])
-    cart.clear()
-    return redirect('home')
+    try:
+        cart = Cart(request)
+        order = Order.objects.create(
+            user=request.user,
+            address=UserAddress.objects.get(user=request.user),
+            order_id=random.randint(1000000,1999999),
+            price=cart.get_total_price())
+        for item in cart:
+            OrderItem.objects.create(
+                order=order,
+                product=item['product'],
+                price=item['price'],
+                quantity=item['quantity'])
+        cart.clear()
+        return redirect('home')
+    except:
+        messages.error(request,'Address not found!')
+        return redirect('checkout')
+
 
 
 
