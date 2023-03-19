@@ -134,7 +134,7 @@ class ProductSingle(TemplateView):
         author = request.user
         text = request.POST.get('text')
         product = Product.objects.get(id=id)
-        Feedback.objects.create(author = author,text=text,feedback=product) 
+        Feedback.objects.create(author=author,text=text,feedback=product) 
         return redirect('single',product.id)
 
 
