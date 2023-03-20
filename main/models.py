@@ -35,7 +35,7 @@ class UserAddress(models.Model):
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=255)
-    zip_code = models.IntegerField()
+    zip_code = models.IntegerField(null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     
     

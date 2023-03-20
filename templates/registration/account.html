@@ -13,6 +13,12 @@
 <h1>{{ user.email }} - email юзера</h1>
 <h1>{{ user.first_name }} - first_name юзера</h1>
 <h1>{{ user.last_name }} - last_name юзера</h1>
+{% if order_status %}
+<h1>{{ order_status.paid }} -  статус заказа(если он есть)</h1>
+<h2>Пожалуйста завершите оплату заказа или отмените его! </h2>
+{% endif %}
+
+
 
 
 <p>Пример как на фотке в тг</p>

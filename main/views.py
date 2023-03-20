@@ -1,5 +1,6 @@
 from typing import Any, Dict
 from django.shortcuts import render, redirect
+from main.shortcuts import get_or_none
 from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.views.generic import CreateView,TemplateView,DetailView,ListView
@@ -14,6 +15,7 @@ from rest_framework.renderers import JSONRenderer
 from .cart import Cart
 import random
 from django.contrib import messages
+from .forms import *
 
 
 # Home view, "preview_objects" - products for carousel, products - all products
@@ -30,23 +32,25 @@ class HomeView(TemplateView):
 
 class CheckoutView(TemplateView):
     template_name = "main/checkout.html"
+    form_class = AddressForm
 
-    def post(self,request):
-        new_address = UserAddress.objects.create(
-            address=request.POST.get('address'),
-            city=request.POST.get('city'),
-            state=request.POST.get('state'),
-            zip_code=request.POST.get('zipcode'),
-            user=request.user)
-        print(new_address)
-        return redirect 
+    def post(self,request,*args,**kwargs):
+        form = AddressForm(data=request.POST)
+        if form.is_valid():
+            address = form.cleaned_data['address']
+            city = form.cleaned_data['city']
+            state = form.cleaned_data['state']
+            zipcode = form.cleaned_data['zipcode']
+            user = request.user
+            UserAddress.objects.create(address=address,city=city,state=state,zip_code=zipcode,user=user)
+
+        else:
+            form = AddressForm
+        return redirect('checkout')
     
 
     def get(self,request):
-        try:
-            order = Order.objects.get(user=request.user)
-        except:
-            order = None
+        order = get_or_none(Order,user=request.user)
         if order is not None:
             messages.error(request,'Pay for an existing order first or cancel it')
             return redirect('cart')
@@ -55,13 +59,11 @@ class CheckoutView(TemplateView):
         if cart == 0:
             messages.error(request,'You cart is empty!')
             return redirect('cart')
-        try:
-            address = UserAddress.objects.get(user=self.request.user.id)
-        except:
-            address = None
+        address = get_or_none(UserAddress,user=request.user)
         context = {
             'cart':Cart(request),
-            'status_address':address
+            'status_address':address,
+            'form':self.form_class
         }
 
         return render(request,self.template_name,context=context)
@@ -118,6 +120,8 @@ class AccountView(TemplateView):
     def get_context_data(self,id, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['user'] = User.objects.get(id=id)
+        order = get_or_none(Order,user=self.request.user)
+        context['order_status'] = order
         return context
 
 
