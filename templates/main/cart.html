@@ -1,8 +1,8 @@
-{% extends 'Main/base.html' %} 
+{% extends 'main/base.html' %} 
 {% load static %} 
 {% load main_tags %}
 {% block body %} 
-{% include 'Main/header.html' %}
+{% include 'main/header.html' %}
 <div class="container">
 <div class="row">
     <div class="col-lg-12">
@@ -39,9 +39,9 @@
                 <div style="flex:1">
                     <p class="quantity">{{ item.quantity }}</p>
                     <div class="quantity">
-                       <a href=" {% url 'move_add' product.id %}"><img  class="chg-quantity update-cart" width="25" height="25" src="{% static  'Main/img/up.png' %}"></a> 
+                       <a href=" {% url 'move_add' product.id %}"><img  class="chg-quantity update-cart" width="25" height="25" src="{% static  'main/img/up.png' %}"></a> 
                 
-                        <a href="{% url 'move_remove' product.id %}"> <img class="chg-quantity update-cart" width="25" height="25" src="{% static  'Main/img/down.png' %}"></a>
+                        <a href="{% url 'move_remove' product.id %}"> <img class="chg-quantity update-cart" width="25" height="25" src="{% static  'main/img/down.png' %}"></a>
                     </div>
                 </div>
               
@@ -51,5 +51,5 @@
         </div>
 
 
-{% include 'Main/footer.html' %}
+{% include 'main/footer.html' %}
 {% endblock %}
