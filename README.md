@@ -1,9 +1,5 @@
 # django_ecommerce
-> Short blurb about what your product does.
-
-[![NPM Version][docker-image]][docker-url]
-[![Build Status][travis-image]][travis-url]
-[![Downloads Stats][npm-downloads]][npm-url]
+> E-commerce store "TIMAR" written in python framework Django.
 
 One to two paragraph statement about your product and what it does.
 
@@ -11,17 +7,13 @@ One to two paragraph statement about your product and what it does.
 
 ## Installation
 
-OS X & Linux:
 
 ```sh
-npm install my-crazy-module --save
+git clone https://github.com/ternyavsky/django_ecommerce.git
+
+docker compose run
 ```
 
-Windows:
-
-```sh
-edit autoexec.bat
-```
 
 ## Usage example
 
