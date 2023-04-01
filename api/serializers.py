@@ -5,8 +5,6 @@ from main.models import Product
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['title','price','text']
+        fields = "__all__"
+    
 
-    def create(self,validate_data):
-        print(validate_data)
-        return Product.objects.create(**validate_data)

@@ -8,10 +8,6 @@ from .models import *
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.mail import send_mail
-from rest_framework.views import APIView
-from api.serializers import ProductSerializer
-from rest_framework.response import Response
-from rest_framework.renderers import JSONRenderer
 from .cart import Cart
 import random
 from django.contrib import messages
@@ -142,17 +138,7 @@ class ProductSingle(TemplateView):
         return redirect('single',product.id)
 
 
-class ProductApiList(APIView):
-    def post(self,request):
-        serializer = ProductSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({'post':serializer.data, 'status':200})
-    
-    def get(self,request):
-        product = Product.objects.all()
-        serializer = ProductSerializer(product,many=True)
-        return Response(serializer.data)
+
 
 
 ###   GROUP METHODS ADD/REMOVE ITEM ON CART ###
