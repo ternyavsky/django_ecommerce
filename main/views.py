@@ -7,6 +7,7 @@ from django.views.generic import CreateView,TemplateView,DetailView,ListView
 from .models import *
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+import json
 from django.core.mail import send_mail
 from .cart import Cart
 import random
@@ -33,10 +34,11 @@ class CheckoutView(TemplateView):
     def post(self,request,*args,**kwargs):
         form = AddressForm(data=request.POST)
         if form.is_valid():
-            address = form.cleaned_data['address']
-            city = form.cleaned_data['city']
-            state = form.cleaned_data['state']
-            zipcode = form.cleaned_data['zipcode']
+            cd = form.cleaned_data
+            address = cd['address']
+            city = cd['city']
+            state = cd['state']
+            zipcode = cd['zipcode']
             user = request.user
             UserAddress.objects.create(address=address,city=city,state=state,zip_code=zipcode,user=user)
 
@@ -142,7 +144,7 @@ class ProductSingle(TemplateView):
 
 
 ###   GROUP METHODS ADD/REMOVE ITEM ON CART ###
-# Add item from product or уебать димана home page
+# Add item from product or home page
 @login_required
 def cart_add(request,product_id):
     item = Product.objects.get(id=product_id)
@@ -160,6 +162,8 @@ def move_add(request,product_id):
 
 
 # Remove item's quantity from cart
+
+
 @login_required
 def move_remove(request,product_id):
     item = Product.objects.get(id=product_id)
